@@ -4,7 +4,7 @@ import java.util.List;
 
 import me.yokeyword.indexablerv.IndexableEntity;
 
-public class CharactersEntity implements IndexableEntity {
+public class NamesEntity implements IndexableEntity {
     /**
      * _id : 56ffc5be043244081938576d
      * male : true
@@ -122,10 +122,10 @@ public class CharactersEntity implements IndexableEntity {
     private long id;
     private String pinyin;
 
-    public CharactersEntity() {
+    public NamesEntity() {
     }
 
-    public CharactersEntity(String name) {
+    public NamesEntity(String name) {
         this.name = name;
     }
 

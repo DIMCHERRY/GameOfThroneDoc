@@ -1,6 +1,6 @@
-package com.littlered.gameofthronedoc.Http;
+package com.littlered.gameofthronedoc.http;
 
-import com.littlered.gameofthronedoc.entity.CharactersEntity;
+import com.littlered.gameofthronedoc.entity.NamesEntity;
 import com.littlered.gameofthronedoc.entity.CulturesEntity;
 import com.littlered.gameofthronedoc.entity.HousesEntity;
 
@@ -11,7 +11,7 @@ import retrofit2.http.GET;
 
 public interface ApiService {
     @GET("characters")
-    Observable<List<CharactersEntity>> getCharacters();
+    Observable<List<NamesEntity>> getCharacters();
 
     @GET("houses")
     Observable<List<HousesEntity>> getHouses();

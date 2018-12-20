@@ -1,4 +1,4 @@
-package com.littlered.gameofthronedoc.Http;
+package com.littlered.gameofthronedoc.http;
 
 import android.text.TextUtils;
 

@@ -3,9 +3,6 @@ package com.littlered.gameofthronedoc.util;
 import android.content.Context;
 import android.widget.Toast;
 
-/**
- * Created by YoKey on 16/10/9.
- */
 public class ToastUtil {
     private static Toast toast;
 

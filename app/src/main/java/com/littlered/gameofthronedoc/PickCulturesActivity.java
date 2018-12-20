@@ -6,10 +6,10 @@ import android.widget.FrameLayout;
 
 import com.github.promeg.pinyinhelper.Pinyin;
 import com.github.promeg.tinypinyin.lexicons.android.cncity.CnCityDict;
-import com.littlered.gameofthronedoc.Http.ApiMethods;
 import com.littlered.gameofthronedoc.adapter.CulturesAdapter;
 import com.littlered.gameofthronedoc.entity.CulturesEntity;
 import com.littlered.gameofthronedoc.fragment.SearchCulturesFragment;
+import com.littlered.gameofthronedoc.http.ApiMethods;
 import com.littlered.gameofthronedoc.observer.ObserverOnNextListener;
 import com.littlered.gameofthronedoc.progress.ProgressObserver;
 import com.littlered.gameofthronedoc.util.ToastUtil;

@@ -7,15 +7,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.littlered.gameofthronedoc.R;
-import com.littlered.gameofthronedoc.entity.CharactersEntity;
+import com.littlered.gameofthronedoc.entity.NamesEntity;
 
 import androidx.recyclerview.widget.RecyclerView;
 import me.yokeyword.indexablerv.IndexableAdapter;
 
-public class CityAdapter extends IndexableAdapter<CharactersEntity> {
+public class NameAdapter extends IndexableAdapter<NamesEntity> {
     private LayoutInflater mInflater;
 
-    public CityAdapter(Context context) {
+    public NameAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
     }
 
@@ -38,7 +38,7 @@ public class CityAdapter extends IndexableAdapter<CharactersEntity> {
     }
 
     @Override
-    public void onBindContentViewHolder(RecyclerView.ViewHolder holder, CharactersEntity entity) {
+    public void onBindContentViewHolder(RecyclerView.ViewHolder holder, NamesEntity entity) {
         ContentVH vh = (ContentVH) holder;
         vh.tv.setText(entity.getName());
     }

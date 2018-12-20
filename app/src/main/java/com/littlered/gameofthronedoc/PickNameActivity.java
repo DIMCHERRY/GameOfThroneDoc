@@ -7,10 +7,10 @@ import android.widget.FrameLayout;
 
 import com.github.promeg.pinyinhelper.Pinyin;
 import com.github.promeg.tinypinyin.lexicons.android.cncity.CnCityDict;
-import com.littlered.gameofthronedoc.Http.ApiMethods;
-import com.littlered.gameofthronedoc.adapter.CityAdapter;
-import com.littlered.gameofthronedoc.entity.CharactersEntity;
+import com.littlered.gameofthronedoc.adapter.NameAdapter;
+import com.littlered.gameofthronedoc.entity.NamesEntity;
 import com.littlered.gameofthronedoc.fragment.SearchFragment;
+import com.littlered.gameofthronedoc.http.ApiMethods;
 import com.littlered.gameofthronedoc.observer.ObserverOnNextListener;
 import com.littlered.gameofthronedoc.progress.ProgressObserver;
 import com.littlered.gameofthronedoc.util.ToastUtil;
@@ -30,17 +30,17 @@ import me.yokeyword.indexablerv.SimpleHeaderAdapter;
 /**
  * 选择角色
  */
-public class PickCityActivity extends AppCompatActivity {
-    private List<CharactersEntity> mDatas;
+public class PickNameActivity extends AppCompatActivity {
+    private List<NamesEntity> mDatas;
     private SearchFragment mSearchFragment;
     private SearchView mSearchView;
     private FrameLayout mProgressBar;
-    private CityAdapter adapter;
+    private NameAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pick_city);
+        setContentView(R.layout.activity_pick_name);
 
         mSearchFragment = (SearchFragment) getSupportFragmentManager().findFragmentById(R.id.search_fragment);
         IndexableLayout indexableLayout =  findViewById(R.id.indexableLayout);
@@ -57,14 +57,14 @@ public class PickCityActivity extends AppCompatActivity {
         indexableLayout.setCompareMode(IndexableLayout.MODE_FAST);
 
         // setAdapter
-        adapter = new CityAdapter(this);
+        adapter = new NameAdapter(this);
         indexableLayout.setAdapter(adapter);
         // set Datas
         mDatas = initDatas();
 
-        adapter.setDatas(mDatas, new IndexableAdapter.IndexCallback<CharactersEntity>() {
+        adapter.setDatas(mDatas, new IndexableAdapter.IndexCallback<NamesEntity>() {
             @Override
-            public void onFinished(List<EntityWrapper<CharactersEntity>> datas) {
+            public void onFinished(List<EntityWrapper<NamesEntity>> datas) {
                 // 数据处理完成后回调
                 mSearchFragment.bindDatas(mDatas);
                 mProgressBar.setVisibility(View.GONE);
@@ -75,13 +75,13 @@ public class PickCityActivity extends AppCompatActivity {
         indexableLayout.setOverlayStyle_Center();
 
         // set Listener
-        adapter.setOnItemContentClickListener(new IndexableAdapter.OnItemContentClickListener<CharactersEntity>() {
+        adapter.setOnItemContentClickListener(new IndexableAdapter.OnItemContentClickListener<NamesEntity>() {
             @Override
-            public void onItemClick(View v, int originalPosition, int currentPosition, CharactersEntity entity) {
+            public void onItemClick(View v, int originalPosition, int currentPosition, NamesEntity entity) {
                 if (originalPosition >= 0) {
-                    ToastUtil.showShort(PickCityActivity.this, "选中:" + entity.getName() + "  当前位置:" + currentPosition + "  原始所在数组位置:" + originalPosition);
+                    ToastUtil.showShort(PickNameActivity.this, "选中:" + entity.getName() + "  当前位置:" + currentPosition + "  原始所在数组位置:" + originalPosition);
                 } else {
-                    ToastUtil.showShort(PickCityActivity.this, "选中Header:" + entity.getName() + "  当前位置:" + currentPosition);
+                    ToastUtil.showShort(PickNameActivity.this, "选中Header:" + entity.getName() + "  当前位置:" + currentPosition);
                 }
             }
         });
@@ -89,7 +89,7 @@ public class PickCityActivity extends AppCompatActivity {
         adapter.setOnItemTitleClickListener(new IndexableAdapter.OnItemTitleClickListener() {
             @Override
             public void onItemClick(View v, int currentPosition, String indexTitle) {
-                ToastUtil.showShort(PickCityActivity.this, "选中:" + indexTitle + "  当前位置:" + currentPosition);
+                ToastUtil.showShort(PickNameActivity.this, "选中:" + indexTitle + "  当前位置:" + currentPosition);
             }
         });
 
@@ -102,34 +102,34 @@ public class PickCityActivity extends AppCompatActivity {
         initSearch();
     }
 
-    private List<CharactersEntity> initDatas() {
-        final List<CharactersEntity> list = new ArrayList<>();
+    private List<NamesEntity> initDatas() {
+        final List<NamesEntity> list = new ArrayList<>();
         final List<String> data = new ArrayList<>();
-        final ObserverOnNextListener<List<CharactersEntity>> listener = new ObserverOnNextListener<List<CharactersEntity>>() {
+        final ObserverOnNextListener<List<NamesEntity>> listener = new ObserverOnNextListener<List<NamesEntity>>() {
             @Override
-            public void onNext(List<CharactersEntity> movie) {
+            public void onNext(List<NamesEntity> movie) {
                 for (int i = 0; i < movie.size(); i++) {
                     data.add(movie.get(i).getName());
                 }
                 for (String item : data) {
-                    CharactersEntity cityEntity = new CharactersEntity();
-                    cityEntity.setName(item);
-                    list.add(cityEntity);
+                    NamesEntity namesEntity = new NamesEntity();
+                    namesEntity.setName(item);
+                    list.add(namesEntity);
                 }
                 adapter.notifyDataSetChanged();
             }
         };
-        ApiMethods.getCharacters(new ProgressObserver<List<CharactersEntity>>(this, listener));
+        ApiMethods.getCharacters(new ProgressObserver<List<NamesEntity>>(this, listener));
 
         return list;
     }
 
-    private List<CharactersEntity> iniyHotCityDatas() {
-        List<CharactersEntity> list = new ArrayList<>();
-        list.add(new CharactersEntity("杭州市"));
-        list.add(new CharactersEntity("北京市"));
-        list.add(new CharactersEntity("上海市"));
-        list.add(new CharactersEntity("广州市"));
+    private List<NamesEntity> iniyHotCityDatas() {
+        List<NamesEntity> list = new ArrayList<>();
+        list.add(new NamesEntity("杭州市"));
+        list.add(new NamesEntity("北京市"));
+        list.add(new NamesEntity("上海市"));
+        list.add(new NamesEntity("广州市"));
         return list;
     }
 

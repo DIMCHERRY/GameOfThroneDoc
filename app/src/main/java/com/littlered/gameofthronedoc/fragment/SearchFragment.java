@@ -10,12 +10,13 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.littlered.gameofthronedoc.R;
-import com.littlered.gameofthronedoc.entity.CharactersEntity;
+import com.littlered.gameofthronedoc.entity.NamesEntity;
 import com.littlered.gameofthronedoc.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,19 +29,19 @@ public class SearchFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private TextView mTvNoResult;
     private SearchAdapter mAdapter;
-    private List<CharactersEntity> mDatas;
+    private List<NamesEntity> mDatas;
     private String mQueryText;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_city, container, false);
-        mTvNoResult = (TextView) view.findViewById(R.id.tv_no_result);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recy);
+        mTvNoResult = view.findViewById(R.id.tv_no_result);
+        mRecyclerView = view.findViewById(R.id.recy);
         return view;
     }
 
-    public void bindDatas(List<CharactersEntity> datas) {
+    public void bindDatas(List<NamesEntity> datas) {
         this.mDatas = datas;
         mAdapter = new SearchAdapter();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -63,15 +64,16 @@ public class SearchFragment extends Fragment {
     }
 
     private class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.VH> implements Filterable {
-        private List<CharactersEntity> items = new ArrayList<>();
+        private List<NamesEntity> items = new ArrayList<>();
 
-        public SearchAdapter() {
+        SearchAdapter() {
             items.clear();
             items.addAll(mDatas);
         }
 
+        @NonNull
         @Override
-        public VH onCreateViewHolder(ViewGroup parent, int viewType) {
+        public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             final VH holder = new VH(LayoutInflater.from(getActivity()).inflate(R.layout.item_city, parent, false));
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -89,17 +91,19 @@ public class SearchFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(VH holder, int position) {
+        public void onBindViewHolder(@NonNull VH holder, int position) {
             holder.tvName.setText(items.get(position).getName());
         }
 
         @Override
         public Filter getFilter() {
             return new Filter() {
+                //启动新的线程，根据constraint字符串序列过滤数据，返回FilterResults将作为参数传递给
+                //publishResults()方法在UI线程中执行。
                 @Override
                 protected FilterResults performFiltering(CharSequence constraint) {
-                    ArrayList<CharactersEntity> list = new ArrayList<>();
-                    for (CharactersEntity item : mDatas) {
+                    ArrayList<NamesEntity> list = new ArrayList<>();
+                    for (NamesEntity item : mDatas) {
                         if (item.getPinyin().startsWith(constraint.toString()) || item.getName().contains(constraint)) {
                             list.add(item);
                         }
@@ -110,10 +114,11 @@ public class SearchFragment extends Fragment {
                     return results;
                 }
 
+                //在UI线程处理这些过滤后的数据
                 @Override
                 @SuppressWarnings("unchecked")
                 protected void publishResults(CharSequence constraint, FilterResults results) {
-                    ArrayList<CharactersEntity> list = (ArrayList<CharactersEntity>) results.values;
+                    ArrayList<NamesEntity> list = (ArrayList<NamesEntity>) results.values;
                     items.clear();
                     items.addAll(list);
                     if (results.count == 0) {
@@ -131,7 +136,7 @@ public class SearchFragment extends Fragment {
 
             VH(View itemView) {
                 super(itemView);
-                tvName = (TextView) itemView.findViewById(R.id.tv_name);
+                tvName = itemView.findViewById(R.id.tv_name);
             }
         }
     }

@@ -1,6 +1,6 @@
-package com.littlered.gameofthronedoc.Http;
+package com.littlered.gameofthronedoc.http;
 
-import com.littlered.gameofthronedoc.entity.CharactersEntity;
+import com.littlered.gameofthronedoc.entity.NamesEntity;
 import com.littlered.gameofthronedoc.entity.CulturesEntity;
 import com.littlered.gameofthronedoc.entity.HousesEntity;
 
@@ -28,7 +28,7 @@ public class ApiMethods {
      * @param observer 由调用者传过来的观察者对象
      * 观察者/被观察者  Observer/Observable
      */
-    public static void getCharacters(Observer<List<CharactersEntity>> observer) {
+    public static void getCharacters(Observer<List<NamesEntity>> observer) {
         ApiSubscribe(ApiStrategy.getApiService().getCharacters(), observer);
     }
 

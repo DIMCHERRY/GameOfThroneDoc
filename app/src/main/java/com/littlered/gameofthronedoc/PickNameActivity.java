@@ -8,8 +8,8 @@ import android.widget.FrameLayout;
 import com.github.promeg.pinyinhelper.Pinyin;
 import com.github.promeg.tinypinyin.lexicons.android.cncity.CnCityDict;
 import com.littlered.gameofthronedoc.adapter.NameAdapter;
-import com.littlered.gameofthronedoc.entity.NamesEntity;
-import com.littlered.gameofthronedoc.fragment.SearchFragment;
+import com.littlered.gameofthronedoc.bean.NamesEntity;
+import com.littlered.gameofthronedoc.fragment.SearchNameFragment;
 import com.littlered.gameofthronedoc.http.ApiMethods;
 import com.littlered.gameofthronedoc.observer.ObserverOnNextListener;
 import com.littlered.gameofthronedoc.progress.ProgressObserver;
@@ -32,7 +32,7 @@ import me.yokeyword.indexablerv.SimpleHeaderAdapter;
  */
 public class PickNameActivity extends AppCompatActivity {
     private List<NamesEntity> mDatas;
-    private SearchFragment mSearchFragment;
+    private SearchNameFragment mSearchFragment;
     private SearchView mSearchView;
     private FrameLayout mProgressBar;
     private NameAdapter adapter;
@@ -42,7 +42,7 @@ public class PickNameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pick_name);
 
-        mSearchFragment = (SearchFragment) getSupportFragmentManager().findFragmentById(R.id.search_fragment);
+        mSearchFragment = (SearchNameFragment) getSupportFragmentManager().findFragmentById(R.id.search_fragment);
         IndexableLayout indexableLayout =  findViewById(R.id.indexableLayout);
         mSearchView =  findViewById(R.id.searchview);
         mProgressBar =  findViewById(R.id.progress);

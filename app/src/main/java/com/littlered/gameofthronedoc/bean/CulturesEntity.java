@@ -1,4 +1,4 @@
-package com.littlered.gameofthronedoc.entity;
+package com.littlered.gameofthronedoc.bean;
 
 import me.yokeyword.indexablerv.IndexableEntity;
 

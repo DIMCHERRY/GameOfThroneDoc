@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.littlered.gameofthronedoc.R;
-import com.littlered.gameofthronedoc.entity.NamesEntity;
+import com.littlered.gameofthronedoc.bean.NamesEntity;
 
 import androidx.recyclerview.widget.RecyclerView;
 import me.yokeyword.indexablerv.IndexableAdapter;

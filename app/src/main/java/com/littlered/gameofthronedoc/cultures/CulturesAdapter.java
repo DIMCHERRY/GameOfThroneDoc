@@ -1,4 +1,4 @@
-package com.littlered.gameofthronedoc.adapter;
+package com.littlered.gameofthronedoc.cultures;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.littlered.gameofthronedoc.R;
-import com.littlered.gameofthronedoc.entity.CulturesEntity;
+import com.littlered.gameofthronedoc.bean.CulturesEntity;
 
 import androidx.recyclerview.widget.RecyclerView;
 import me.yokeyword.indexablerv.IndexableAdapter;

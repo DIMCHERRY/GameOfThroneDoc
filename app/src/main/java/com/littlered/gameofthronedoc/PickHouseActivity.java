@@ -7,7 +7,7 @@ import android.widget.FrameLayout;
 import com.github.promeg.pinyinhelper.Pinyin;
 import com.github.promeg.tinypinyin.lexicons.android.cncity.CnCityDict;
 import com.littlered.gameofthronedoc.adapter.HouseAdapter;
-import com.littlered.gameofthronedoc.entity.HousesEntity;
+import com.littlered.gameofthronedoc.bean.HousesEntity;
 import com.littlered.gameofthronedoc.fragment.SearchHouseFragment;
 import com.littlered.gameofthronedoc.http.ApiMethods;
 import com.littlered.gameofthronedoc.observer.ObserverOnNextListener;

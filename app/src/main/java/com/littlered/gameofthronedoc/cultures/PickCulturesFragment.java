@@ -1,4 +1,4 @@
-package com.littlered.gameofthronedoc.view.fragment;
+package com.littlered.gameofthronedoc.cultures;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,8 +9,8 @@ import android.widget.FrameLayout;
 import com.github.promeg.pinyinhelper.Pinyin;
 import com.github.promeg.tinypinyin.lexicons.android.cncity.CnCityDict;
 import com.littlered.gameofthronedoc.R;
-import com.littlered.gameofthronedoc.adapter.CulturesAdapter;
-import com.littlered.gameofthronedoc.entity.CulturesEntity;
+import com.littlered.gameofthronedoc.cultures.CulturesAdapter;
+import com.littlered.gameofthronedoc.bean.CulturesEntity;
 import com.littlered.gameofthronedoc.http.ApiMethods;
 import com.littlered.gameofthronedoc.observer.ObserverOnNextListener;
 import com.littlered.gameofthronedoc.progress.ProgressObserver;
@@ -18,10 +18,12 @@ import com.littlered.gameofthronedoc.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import butterknife.BindView;
@@ -29,13 +31,12 @@ import butterknife.ButterKnife;
 import me.yokeyword.indexablerv.EntityWrapper;
 import me.yokeyword.indexablerv.IndexableAdapter;
 import me.yokeyword.indexablerv.IndexableLayout;
-import me.yokeyword.indexablerv.SimpleHeaderAdapter;
 
 /**
  * author : littleredDLZ
  * date : 2018-12-20 16:58
  */
-public class PickCulturesFragment extends Fragment {
+public class PickCulturesFragment extends Fragment implements CulturesContract.View{
     @BindView(R.id.progress_culture)
     FrameLayout mProgressBar;
     @BindView(R.id.indexableLayout)
@@ -90,7 +91,7 @@ public class PickCulturesFragment extends Fragment {
                 ToastUtil.showShort(getContext(), "选中:" + indexTitle + "  当前位置:" + currentPosition);
             }
         });
-
+        initview();
         return view;
     }
 
@@ -116,6 +117,14 @@ public class PickCulturesFragment extends Fragment {
         return list;
     }
 
+    private void initview() {
+        Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar_main);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        toolbar.setTitle("选择文化");
+    }
 
+    @Override
+    public void showData() {
 
+    }
 }

@@ -47,7 +47,8 @@ class ApiStrategy {
         logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         //缓存
         File cacheFile = new File(MyApplication.getContext().getCacheDir(), "cache");
-        Cache cache = new Cache(cacheFile, 1024 * 1024 * 100); //100Mb
+        //100Mb
+        Cache cache = new Cache(cacheFile, 1024 * 1024 * 100);
         //增加头部信息
         Interceptor headerInterceptor = new Interceptor() {
             @Override
@@ -104,7 +105,8 @@ class ApiStrategy {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
                 .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())//请求的结果转为实体类
+                //请求的结果转为实体类
+                .addConverterFactory(GsonConverterFactory.create())
                 //适配RxJava2.0,RxJava1.x则为RxJavaCallAdapterFactory.create()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();

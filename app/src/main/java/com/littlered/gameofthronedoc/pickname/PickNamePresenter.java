@@ -1,9 +1,7 @@
 package com.littlered.gameofthronedoc.pickname;
 
-import com.littlered.gameofthronedoc.entity.NamesEntity;
-import com.littlered.gameofthronedoc.http.ApiMethods;
+import com.littlered.gameofthronedoc.bean.NamesEntity;
 import com.littlered.gameofthronedoc.observer.ObserverOnNextListener;
-import com.littlered.gameofthronedoc.progress.ProgressObserver;
 
 import java.util.ArrayList;
 import java.util.List;

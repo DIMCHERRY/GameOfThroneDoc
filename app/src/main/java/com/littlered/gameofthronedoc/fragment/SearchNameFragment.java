@@ -10,7 +10,7 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.littlered.gameofthronedoc.R;
-import com.littlered.gameofthronedoc.entity.NamesEntity;
+import com.littlered.gameofthronedoc.bean.NamesEntity;
 import com.littlered.gameofthronedoc.util.ToastUtil;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * 搜索结果显示Fragment
  */
-public class SearchFragment extends Fragment {
+public class SearchNameFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private TextView mTvNoResult;
     private SearchAdapter mAdapter;

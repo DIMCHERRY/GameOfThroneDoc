@@ -10,7 +10,7 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.littlered.gameofthronedoc.R;
-import com.littlered.gameofthronedoc.entity.HousesEntity;
+import com.littlered.gameofthronedoc.bean.HousesEntity;
 import com.littlered.gameofthronedoc.util.ToastUtil;
 
 import java.util.ArrayList;

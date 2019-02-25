@@ -1,6 +1,6 @@
 package com.littlered.gameofthronedoc.pickname;
 
-import com.littlered.gameofthronedoc.entity.NamesEntity;
+import com.littlered.gameofthronedoc.bean.NamesEntity;
 
 import java.util.List;
 

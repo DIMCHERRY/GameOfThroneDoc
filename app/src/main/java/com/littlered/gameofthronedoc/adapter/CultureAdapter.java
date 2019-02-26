@@ -1,4 +1,4 @@
-package com.littlered.gameofthronedoc.cultures;
+package com.littlered.gameofthronedoc.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,33 +12,33 @@ import com.littlered.gameofthronedoc.bean.CulturesEntity;
 import androidx.recyclerview.widget.RecyclerView;
 import me.yokeyword.indexablerv.IndexableAdapter;
 
-public class CulturesAdapter extends IndexableAdapter<CulturesEntity> {
+public class CultureAdapter extends IndexableAdapter<CulturesEntity> {
     private LayoutInflater mInflater;
-    public CulturesAdapter(Context context) {
+    public CultureAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateTitleViewHolder(ViewGroup parent) {
         View view = mInflater.inflate(R.layout.item_index_culture, parent, false);
-        return new CulturesAdapter.IndexVH(view);
+        return new CultureAdapter.IndexVH(view);
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateContentViewHolder(ViewGroup parent) {
         View view = mInflater.inflate(R.layout.item_culture, parent, false);
-        return new CulturesAdapter.ContentVH(view);
+        return new CultureAdapter.ContentVH(view);
     }
 
     @Override
     public void onBindTitleViewHolder(RecyclerView.ViewHolder viewHolder, String indexTitle) {
-        CulturesAdapter.IndexVH vh = (CulturesAdapter.IndexVH) viewHolder;
+        CultureAdapter.IndexVH vh = (CultureAdapter.IndexVH) viewHolder;
         vh.tv.setText(indexTitle);
     }
 
     @Override
     public void onBindContentViewHolder(RecyclerView.ViewHolder viewHolder, CulturesEntity culturesEntity) {
-        CulturesAdapter.ContentVH vh = (CulturesAdapter.ContentVH) viewHolder;
+        CultureAdapter.ContentVH vh = (CultureAdapter.ContentVH) viewHolder;
         vh.tv.setText(culturesEntity.getName());
     }
 
@@ -51,6 +51,9 @@ public class CulturesAdapter extends IndexableAdapter<CulturesEntity> {
         }
     }
 
+    /**
+     * 内容的viewholder 例如家族名字
+     */
     private class ContentVH extends RecyclerView.ViewHolder {
         TextView tv;
 

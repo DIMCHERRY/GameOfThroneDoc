@@ -5,11 +5,11 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-import android.view.KeyEvent;
 import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
-import com.littlered.gameofthronedoc.cultures.PickCulturesFragment;
+import com.littlered.gameofthronedoc.view.fragment.PickCulturesFragment;
+import com.littlered.gameofthronedoc.view.fragment.PickHouseFragment;
 import com.littlered.gameofthronedoc.view.fragment.PickNameFragment;
 
 import androidx.core.view.GravityCompat;
@@ -26,7 +26,6 @@ import butterknife.ButterKnife;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -73,24 +72,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        //判断用户是否点了返回键
-        if(keyCode == KeyEvent.KEYCODE_BACK){
-            if ((System.currentTimeMillis() - mExitTime) > 2000) {
-                //大于2000ms则认为是误操作，使用Toast进行提示
-                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
-                //并记录下本次点击“返回键”的时刻，以便下次进行判断
-                mExitTime = System.currentTimeMillis();
-            } else {
-                //小于2000ms则认为是用户确实希望退出程序-调用System.exit()方法进行退出
-                System.exit(0);
-            }
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
     //初始化页面
     private void initMainFragment() {
         FragmentTransaction fgTransaction = fgManager.beginTransaction();
@@ -103,20 +84,20 @@ public class MainActivity extends AppCompatActivity
         fgTransaction.commit();
     }
 
-/*    @Override
+    @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
-    }*/
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-/*        getMenuInflater().inflate(R.menu.toolbar_main, menu);*/
+        /*        getMenuInflater().inflate(R.menu.toolbar_main, menu);*/
 /*        MenuItem searchItem = menu.findItem(R.id.action_menu_search);
         //通过MenuItem得到SearchView
         SearchView mSearchView = (SearchView) searchItem.getActionView();
@@ -152,13 +133,16 @@ public class MainActivity extends AppCompatActivity
                 fg1 = new PickNameFragment();
             }
             showFragment(fg1);
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_culture) {
             if (fg2 == null) {
                 fg2 = new PickCulturesFragment();
             }
             showFragment(fg2);
-        } else if (id == R.id.nav_slideshow) {
-
+        } else if (id == R.id.nav_house) {
+            if (fg3 == null) {
+                fg3 = new PickHouseFragment();
+            }
+            showFragment(fg3);
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {

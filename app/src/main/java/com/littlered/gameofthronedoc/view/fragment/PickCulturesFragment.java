@@ -1,7 +1,13 @@
-package com.littlered.gameofthronedoc.cultures;
+package com.littlered.gameofthronedoc.view.fragment;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -9,10 +15,10 @@ import android.widget.FrameLayout;
 import com.github.promeg.pinyinhelper.Pinyin;
 import com.github.promeg.tinypinyin.lexicons.android.cncity.CnCityDict;
 import com.littlered.gameofthronedoc.R;
-import com.littlered.gameofthronedoc.cultures.CulturesAdapter;
+import com.littlered.gameofthronedoc.adapter.CultureAdapter;
 import com.littlered.gameofthronedoc.bean.CulturesEntity;
 import com.littlered.gameofthronedoc.http.ApiMethods;
-import com.littlered.gameofthronedoc.observer.ObserverOnNextListener;
+import com.littlered.gameofthronedoc.progress.ObserverOnNextListener;
 import com.littlered.gameofthronedoc.progress.ProgressObserver;
 import com.littlered.gameofthronedoc.util.ToastUtil;
 
@@ -23,6 +29,7 @@ import java.util.Objects;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -32,23 +39,23 @@ import me.yokeyword.indexablerv.EntityWrapper;
 import me.yokeyword.indexablerv.IndexableAdapter;
 import me.yokeyword.indexablerv.IndexableLayout;
 
-/**
- * author : littleredDLZ
- * date : 2018-12-20 16:58
- */
-public class PickCulturesFragment extends Fragment implements CulturesContract.View{
+public class PickCulturesFragment extends Fragment {
     @BindView(R.id.progress_culture)
     FrameLayout mProgressBar;
     @BindView(R.id.indexableLayout)
     IndexableLayout indexableLayout;
 
     private List<CulturesEntity> mDatas;
-    private CulturesAdapter adapter;
+    private CultureAdapter adapter;
+    private SearchView searchView = null;
+    private SearchView.OnQueryTextListener queryTextListener;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pick_culture, container, false);
         ButterKnife.bind(this, view);
+
         indexableLayout.setLayoutManager(new GridLayoutManager(getContext(), 1));
         // 多音字处理
         Pinyin.init(Pinyin.newConfig().with(CnCityDict.getInstance(getContext())));
@@ -57,7 +64,7 @@ public class PickCulturesFragment extends Fragment implements CulturesContract.V
         indexableLayout.setCompareMode(IndexableLayout.MODE_FAST);
 
         // setAdapter
-        adapter = new CulturesAdapter(getContext());
+        adapter = new CultureAdapter(getContext());
         indexableLayout.setAdapter(adapter);
         // set Datas
         mDatas = initDatas();
@@ -91,6 +98,7 @@ public class PickCulturesFragment extends Fragment implements CulturesContract.V
                 ToastUtil.showShort(getContext(), "选中:" + indexTitle + "  当前位置:" + currentPosition);
             }
         });
+
         initview();
         return view;
     }
@@ -105,9 +113,9 @@ public class PickCulturesFragment extends Fragment implements CulturesContract.V
                     data.add(movie.get(i).getName());
                 }
                 for (String item : data) {
-                    CulturesEntity culturesEntity = new CulturesEntity();
-                    culturesEntity.setName(item);
-                    list.add(culturesEntity);
+                    CulturesEntity CulturesEntity = new CulturesEntity();
+                    CulturesEntity.setName(item);
+                    list.add(CulturesEntity);
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -124,7 +132,52 @@ public class PickCulturesFragment extends Fragment implements CulturesContract.V
     }
 
     @Override
-    public void showData() {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.toolbar_main, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_menu_search);
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+
+            queryTextListener = new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    Log.i("onQueryTextChange", newText);
+
+                    return true;
+                }
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    Log.i("onQueryTextSubmit", query);
+
+                    return true;
+                }
+            };
+            searchView.setOnQueryTextListener(queryTextListener);
+        }
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_menu_search:
+                // Not implemented here
+                return false;
+            default:
+                break;
+        }
+        searchView.setOnQueryTextListener(queryTextListener);
+        return super.onOptionsItemSelected(item);
     }
 }

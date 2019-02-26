@@ -5,5 +5,4 @@ package com.littlered.gameofthronedoc.progress;
  */
 public interface ObserverOnNextListener<T> {
     void onNext(T t);
-    void onError(Throwable t);
 }

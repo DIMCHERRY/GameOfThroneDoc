@@ -71,6 +71,7 @@ public class HousesEntity implements IndexableEntity {
         this.title = title;
     }
 
+
     public String getRegion() {
         return region;
     }

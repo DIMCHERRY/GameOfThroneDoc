@@ -9,17 +9,17 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="Name" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_culture"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Culture" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_house"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:title="House "/>
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="Interview" />
     </group>
 
     <item android:title="Communicate">

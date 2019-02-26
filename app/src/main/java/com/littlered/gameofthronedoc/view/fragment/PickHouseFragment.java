@@ -15,8 +15,8 @@ import android.widget.FrameLayout;
 import com.github.promeg.pinyinhelper.Pinyin;
 import com.github.promeg.tinypinyin.lexicons.android.cncity.CnCityDict;
 import com.littlered.gameofthronedoc.R;
-import com.littlered.gameofthronedoc.adapter.NameAdapter;
-import com.littlered.gameofthronedoc.bean.NamesEntity;
+import com.littlered.gameofthronedoc.adapter.HouseAdapter;
+import com.littlered.gameofthronedoc.bean.HousesEntity;
 import com.littlered.gameofthronedoc.http.ApiMethods;
 import com.littlered.gameofthronedoc.progress.ObserverOnNextListener;
 import com.littlered.gameofthronedoc.progress.ProgressObserver;
@@ -38,27 +38,22 @@ import butterknife.ButterKnife;
 import me.yokeyword.indexablerv.EntityWrapper;
 import me.yokeyword.indexablerv.IndexableAdapter;
 import me.yokeyword.indexablerv.IndexableLayout;
-import me.yokeyword.indexablerv.SimpleHeaderAdapter;
 
-/**
- * author : littleredDLZ
- * date : 2018-12-20 11:00
- */
-public class PickNameFragment extends Fragment {
-    @BindView(R.id.progress_name)
+public class PickHouseFragment extends Fragment {
+    @BindView(R.id.progress_house)
     FrameLayout mProgressBar;
     @BindView(R.id.indexableLayout)
     IndexableLayout indexableLayout;
 
-    private List<NamesEntity> mDatas;
-    private NameAdapter adapter;
+    private List<HousesEntity> mDatas;
+    private HouseAdapter adapter;
     private SearchView searchView = null;
     private SearchView.OnQueryTextListener queryTextListener;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_pick_name, container, false);
+        View view = inflater.inflate(R.layout.fragment_pick_house, container, false);
         ButterKnife.bind(this, view);
 
         indexableLayout.setLayoutManager(new GridLayoutManager(getContext(), 1));
@@ -69,14 +64,14 @@ public class PickNameFragment extends Fragment {
         indexableLayout.setCompareMode(IndexableLayout.MODE_FAST);
 
         // setAdapter
-        adapter = new NameAdapter(getContext());
+        adapter = new HouseAdapter(getContext());
         indexableLayout.setAdapter(adapter);
         // set Datas
         mDatas = initDatas();
 
-        adapter.setDatas(mDatas, new IndexableAdapter.IndexCallback<NamesEntity>() {
+        adapter.setDatas(mDatas, new IndexableAdapter.IndexCallback<HousesEntity>() {
             @Override
-            public void onFinished(List<EntityWrapper<NamesEntity>> datas) {
+            public void onFinished(List<EntityWrapper<HousesEntity>> datas) {
                 // 数据处理完成后回调
                 /*                mSearchFragment.bindDatas(mDatas);*/
                 mProgressBar.setVisibility(View.GONE);
@@ -86,9 +81,9 @@ public class PickNameFragment extends Fragment {
         // set Center OverlayView
         indexableLayout.setOverlayStyle_Center();
         // set Listener
-        adapter.setOnItemContentClickListener(new IndexableAdapter.OnItemContentClickListener<NamesEntity>() {
+        adapter.setOnItemContentClickListener(new IndexableAdapter.OnItemContentClickListener<HousesEntity>() {
             @Override
-            public void onItemClick(View v, int originalPosition, int currentPosition, NamesEntity entity) {
+            public void onItemClick(View v, int originalPosition, int currentPosition, HousesEntity entity) {
                 if (originalPosition >= 0) {
                     ToastUtil.showShort(getContext(), "选中:" + entity.getName() + "  当前位置:" + currentPosition + "  原始所在数组位置:" + originalPosition);
                 } else {
@@ -103,34 +98,32 @@ public class PickNameFragment extends Fragment {
                 ToastUtil.showShort(getContext(), "选中:" + indexTitle + "  当前位置:" + currentPosition);
             }
         });
-
-        // 添加 HeaderView DefaultHeaderAdapter接收一个IndexableAdapter, 使其布局以及点击事件和IndexableAdapter一致
-        // 如果想自定义布局,点击事件, 可传入 new IndexableHeaderAdapter
-        SimpleHeaderAdapter mHotCityAdapter = new SimpleHeaderAdapter<>(adapter, "热", "热门角色", iniyHotCityDatas());
-        // 热门角色
-        indexableLayout.addHeaderAdapter(mHotCityAdapter);
+        
         initview();
         return view;
     }
 
-    private List<NamesEntity> initDatas() {
-        final List<NamesEntity> list = new ArrayList<>();
+    private List<HousesEntity> initDatas() {
+        final List<HousesEntity> list = new ArrayList<>();
         final List<String> data = new ArrayList<>();
-        final ObserverOnNextListener<List<NamesEntity>> listener = new ObserverOnNextListener<List<NamesEntity>>() {
+        final ObserverOnNextListener<List<HousesEntity>> listener = new ObserverOnNextListener<List<HousesEntity>>() {
             @Override
-            public void onNext(List<NamesEntity> movie) {
+            public void onNext(List<HousesEntity> movie) {
                 for (int i = 0; i < movie.size(); i++) {
-                    data.add(movie.get(i).getName());
+                    String str = movie.get(i).getName();
+                    String toDelete = "House ";
+                    str = str.substring(toDelete.length());
+                    data.add(str);
                 }
                 for (String item : data) {
-                    NamesEntity namesEntity = new NamesEntity();
-                    namesEntity.setName(item);
-                    list.add(namesEntity);
+                    HousesEntity HousesEntity = new HousesEntity();
+                    HousesEntity.setName(item);
+                    list.add(HousesEntity);
                 }
                 adapter.notifyDataSetChanged();
             }
         };
-        ApiMethods.getCharacters(new ProgressObserver<List<NamesEntity>>(getContext(), listener));
+        ApiMethods.getHouses(new ProgressObserver<List<HousesEntity>>(getContext(), listener));
 
         return list;
     }
@@ -138,15 +131,7 @@ public class PickNameFragment extends Fragment {
     private void initview() {
         Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar_main);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        toolbar.setTitle("选择角色");
-    }
-
-    private List<NamesEntity> iniyHotCityDatas() {
-        List<NamesEntity> list = new ArrayList<>();
-        list.add(new NamesEntity("Arya Stark"));
-        list.add(new NamesEntity("Jaime Lannister"));
-        list.add(new NamesEntity("Daenerys Targaryen"));
-        return list;
+        toolbar.setTitle("选择家族");
     }
 
     @Override
@@ -199,5 +184,3 @@ public class PickNameFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 }
-
-

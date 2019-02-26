@@ -3,7 +3,7 @@ package com.littlered.gameofthronedoc.progress;
 import android.content.Context;
 import android.util.Log;
 
-import com.littlered.gameofthronedoc.observer.ObserverOnNextListener;
+
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;

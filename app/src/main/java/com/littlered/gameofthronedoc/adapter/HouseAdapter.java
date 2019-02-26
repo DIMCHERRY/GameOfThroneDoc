@@ -37,9 +37,9 @@ public class HouseAdapter extends IndexableAdapter<HousesEntity> {
     }
 
     @Override
-    public void onBindContentViewHolder(RecyclerView.ViewHolder viewHolder, HousesEntity HousesEntity) {
+    public void onBindContentViewHolder(RecyclerView.ViewHolder viewHolder, HousesEntity housesEntity) {
         HouseAdapter.ContentVH vh = (HouseAdapter.ContentVH) viewHolder;
-        vh.tv.setText(HousesEntity.getName());
+        vh.tv.setText(housesEntity.getName());
     }
 
     private class IndexVH extends RecyclerView.ViewHolder {
@@ -52,7 +52,7 @@ public class HouseAdapter extends IndexableAdapter<HousesEntity> {
     }
 
     /**
-     * 内容的viewholder 例如家族名字
+     * 内容的viewholder
      */
     private class ContentVH extends RecyclerView.ViewHolder {
         TextView tv;

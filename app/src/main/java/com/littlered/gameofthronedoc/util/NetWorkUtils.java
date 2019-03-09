@@ -5,17 +5,22 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 public class NetWorkUtils {
+    //联网返回true
     public static boolean isNetConnected(Context context) {
-        ConnectivityManager connectivity = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivity != null) {
-            NetworkInfo info = connectivity.getActiveNetworkInfo();
-            if (info != null && info.isConnected()) {
-                if (info.getState() == NetworkInfo.State.CONNECTED) {
-                    return true;
-                }
-            }
+        ConnectivityManager manager = (ConnectivityManager) context
+                .getApplicationContext().getSystemService(
+                        Context.CONNECTIVITY_SERVICE);
+
+        if (manager == null) {
+            return false;
         }
-        return false;
+
+        NetworkInfo networkinfo = manager.getActiveNetworkInfo();
+
+        if (networkinfo == null || !networkinfo.isAvailable()) {
+            return false;
+        }
+
+        return true;
     }
 }

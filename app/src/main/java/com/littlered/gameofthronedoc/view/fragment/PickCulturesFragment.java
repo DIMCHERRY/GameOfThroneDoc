@@ -16,7 +16,7 @@ import com.github.promeg.pinyinhelper.Pinyin;
 import com.github.promeg.tinypinyin.lexicons.android.cncity.CnCityDict;
 import com.littlered.gameofthronedoc.R;
 import com.littlered.gameofthronedoc.adapter.CultureAdapter;
-import com.littlered.gameofthronedoc.bean.CulturesEntity;
+import com.littlered.gameofthronedoc.entity.CulturesEntity;
 import com.littlered.gameofthronedoc.http.ApiMethods;
 import com.littlered.gameofthronedoc.progress.ObserverOnNextListener;
 import com.littlered.gameofthronedoc.progress.ProgressObserver;

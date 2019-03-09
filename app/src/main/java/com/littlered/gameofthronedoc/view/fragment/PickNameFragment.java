@@ -2,6 +2,7 @@ package com.littlered.gameofthronedoc.view.fragment;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,10 +17,12 @@ import com.github.promeg.pinyinhelper.Pinyin;
 import com.github.promeg.tinypinyin.lexicons.android.cncity.CnCityDict;
 import com.littlered.gameofthronedoc.R;
 import com.littlered.gameofthronedoc.adapter.NameAdapter;
-import com.littlered.gameofthronedoc.bean.NamesEntity;
+import com.littlered.gameofthronedoc.app.MyApplication;
+import com.littlered.gameofthronedoc.entity.NamesEntity;
 import com.littlered.gameofthronedoc.http.ApiMethods;
 import com.littlered.gameofthronedoc.progress.ObserverOnNextListener;
 import com.littlered.gameofthronedoc.progress.ProgressObserver;
+import com.littlered.gameofthronedoc.util.NetWorkUtils;
 import com.littlered.gameofthronedoc.util.ToastUtil;
 
 import java.util.ArrayList;
@@ -40,6 +43,9 @@ import me.yokeyword.indexablerv.IndexableAdapter;
 import me.yokeyword.indexablerv.IndexableLayout;
 import me.yokeyword.indexablerv.SimpleHeaderAdapter;
 
+import static android.content.Context.MODE_PRIVATE;
+
+
 /**
  * author : littleredDLZ
  * date : 2018-12-20 11:00
@@ -51,6 +57,7 @@ public class PickNameFragment extends Fragment {
     IndexableLayout indexableLayout;
 
     private List<NamesEntity> mDatas;
+
     private NameAdapter adapter;
     private SearchView searchView = null;
     private SearchView.OnQueryTextListener queryTextListener;
@@ -82,7 +89,6 @@ public class PickNameFragment extends Fragment {
                 mProgressBar.setVisibility(View.GONE);
             }
         });
-
         // set Center OverlayView
         indexableLayout.setOverlayStyle_Center();
         // set Listener
@@ -113,27 +119,49 @@ public class PickNameFragment extends Fragment {
         return view;
     }
 
+
+
     private List<NamesEntity> initDatas() {
+        final SharedPreferences.Editor editor =this.getActivity().getSharedPreferences("names", MODE_PRIVATE).edit();
         final List<NamesEntity> list = new ArrayList<>();
         final List<String> data = new ArrayList<>();
-        final ObserverOnNextListener<List<NamesEntity>> listener = new ObserverOnNextListener<List<NamesEntity>>() {
-            @Override
-            public void onNext(List<NamesEntity> movie) {
-                for (int i = 0; i < movie.size(); i++) {
-                    data.add(movie.get(i).getName());
+        if(NetWorkUtils.isNetConnected(MyApplication.getContext())){
+            final ObserverOnNextListener<List<NamesEntity>> listener = new ObserverOnNextListener<List<NamesEntity>>() {
+                @Override
+                public void onNext(List<NamesEntity> movie) {
+                    //SharedPreferences存储的名字总量
+                    editor.putInt("num", movie.size());
+                    for (int i = 0; i < movie.size(); i++) {
+                        data.add(movie.get(i).getName());
+                        editor.putString("item_"+i, data.get(i));
+                    }
+                    for (String item : data) {
+                        NamesEntity namesEntity = new NamesEntity();
+                        namesEntity.setName(item);
+                        list.add(namesEntity);
+                    }
+                    adapter.notifyDataSetChanged();
+                    editor.apply();
                 }
-                for (String item : data) {
-                    NamesEntity namesEntity = new NamesEntity();
-                    namesEntity.setName(item);
-                    list.add(namesEntity);
-                }
-                adapter.notifyDataSetChanged();
+            };
+            ApiMethods.getCharacters(new ProgressObserver<List<NamesEntity>>(getContext(), listener));
+        }else{
+            SharedPreferences preferDataList = this.getActivity().getSharedPreferences("names", MODE_PRIVATE);
+            int nums = preferDataList.getInt("num", 0);
+            for (int i = 0; i < nums; i++){
+                String item = preferDataList.getString("item_"+i, null);
+                data.add(item);
             }
-        };
-        ApiMethods.getCharacters(new ProgressObserver<List<NamesEntity>>(getContext(), listener));
-
+            for (String item : data) {
+                NamesEntity namesEntity = new NamesEntity();
+                namesEntity.setName(item);
+                list.add(namesEntity);
+            }
+            adapter.notifyDataSetChanged();
+        }
         return list;
     }
+
 
     private void initview() {
         Toolbar toolbar = Objects.requireNonNull(getActivity()).findViewById(R.id.toolbar_main);

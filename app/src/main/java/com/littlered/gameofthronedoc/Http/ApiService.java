@@ -1,8 +1,8 @@
 package com.littlered.gameofthronedoc.http;
 
-import com.littlered.gameofthronedoc.bean.NamesEntity;
-import com.littlered.gameofthronedoc.bean.CulturesEntity;
-import com.littlered.gameofthronedoc.bean.HousesEntity;
+import com.littlered.gameofthronedoc.entity.NamesEntity;
+import com.littlered.gameofthronedoc.entity.CulturesEntity;
+import com.littlered.gameofthronedoc.entity.HousesEntity;
 
 import java.util.List;
 

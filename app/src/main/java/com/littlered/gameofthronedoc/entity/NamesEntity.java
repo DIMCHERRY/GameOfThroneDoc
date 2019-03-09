@@ -1,4 +1,4 @@
-package com.littlered.gameofthronedoc.bean;
+package com.littlered.gameofthronedoc.entity;
 
 import java.util.List;
 

@@ -12,12 +12,10 @@ public class ProgressObserver<T> implements Observer<T>, ProgressCancelListener 
     private static final String TAG = "ProgressObserver";
     private ObserverOnNextListener listener;
     private ProgressDialogHandler mProgressDialogHandler;
-    private Context context;
     private Disposable d;
 
     public ProgressObserver(Context context, ObserverOnNextListener listener) {
         this.listener = listener;
-        this.context = context;
         mProgressDialogHandler = new ProgressDialogHandler(context, this, true);
     }
 

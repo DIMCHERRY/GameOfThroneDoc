@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_name);
         initMainFragment();
+
     }
 
 
